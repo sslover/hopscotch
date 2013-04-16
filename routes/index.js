@@ -176,7 +176,7 @@ exports.addUser = function(req, res) {
 		newUser.friends = req.body.friends;
 
 	// save the newUser to the database
-	newClothing.save(function(err){
+	newUser.save(function(err){
 		if (err) {
 			console.error("Error on saving new user");
 			console.error("err");
