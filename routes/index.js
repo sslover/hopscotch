@@ -152,7 +152,7 @@ exports.returnGrpData = function(req, res) {
 		
 		//prepare JSON data for response
 		var jsonData = {
-			group : currentGroup,
+			group : currentGrp,
 			status : 'OK'
 		}
 
