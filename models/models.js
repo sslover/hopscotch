@@ -20,7 +20,7 @@ var messageSchema = new Schema({
 	lat : String,
 	lon : String,
 	users : [userSchema],
-	creator : userSchema,
+	creator : String,
 	found : Boolean
 })
 
