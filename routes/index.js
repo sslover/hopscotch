@@ -114,7 +114,7 @@ exports.returnMsgData = function(req, res) {
 			return res.status(500).send("There was an error on this message query");
 		}
 
-		if (currentUser == null) {
+		if (currentMsg == null) {
 			return res.status(404).render('404.html');
 		}
 		
