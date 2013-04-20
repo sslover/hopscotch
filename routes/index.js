@@ -10,7 +10,10 @@ var moment = require("moment"); // date manipulation library
 var models = require("../models/models.js"); //db model
 //models.User.findOne(...
 //models.Group.findOne(...
-//models.Message.findOne(...	
+//models.Message.findOne(...
+
+var geoloqi = require('geoloqi');
+var session = new geoloqi.Session({'access_token':'b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5'});	
 
 /*
 	GET /
@@ -168,12 +171,27 @@ exports.addUser = function(req, res) {
 	console.log("received new user addition");
 	console.log(req.body);
 
+	// need a variable to store the user's geoloqi ID
+	var geoloqiID;
+
+	// create an account at geoloqi
+	session.post('/user/create_anon', {
+	  "key":        newUser.fbID
+	}, function(result, err) {
+	  if(err) {
+	    throw new Error('There has been an error! '+err);
+	  } else {
+	    console.log(result.access_token);
+	    geoloqiID = result.access_token;
+	  }
+	});
+
 	// accept HTTP post data
 	newUser = new models.User();
 		newUser.name = req.body.name;
 		newUser.fbID = req.body.fbID;
 		newUser.photo = req.body.photo;
-		newUser.friends = req.body.friends;
+		newUser.geoloqiID = result.access_token;
 
 	// save the newUser to the database
 	newUser.save(function(err){
