@@ -176,6 +176,8 @@ exports.addUser = function(req, res) {
 
 	// create an account at geoloqi
 	session.post('/user/create_anon', {
+	  "client_id": d9c602b6c0c651ecf4bfd9db88b5acf1,
+	  "client_secret": ebfb1e4eb1de784c30af5920f3345944,
 	  "key":        req.body.fbID
 	}, function(result, err) {
 	  if(err) {
