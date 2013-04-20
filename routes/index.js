@@ -176,7 +176,7 @@ exports.addUser = function(req, res) {
 
 	// create an account at geoloqi
 	session.post('/user/create_anon', {
-	  "key":        newUser.fbID
+	  "key":        req.body.fbID
 	}, function(result, err) {
 	  if(err) {
 	    throw new Error('There has been an error! '+err);
