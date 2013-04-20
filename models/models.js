@@ -7,8 +7,8 @@ var groupSchema = new Schema({
 	dateCreated : { type: Date, default: Date.now },
 	name : String,
 	admin : Number,
-	users : [userSchema],
-    messages : [messageSchema]
+	users : [Number],
+    messages : [Number]
 })
 
 var Group = mongoose.model('Group', groupSchema);
@@ -19,8 +19,8 @@ var messageSchema = new Schema({
 	content : String,
 	lat : String,
 	lon : String,
-	users : [userSchema],
-	creator : String,
+	users : [Number],
+	creator : Number,
 	found : Boolean
 })
 
@@ -32,9 +32,10 @@ var userSchema = new Schema({
 	fbID : Number,
 	photo : String,
     dateCreated : { type: Date, default: Date.now },
-    friends : [String],
-    groups : [groupSchema],
-    messages : [messageSchema]
+    friends : [Number],
+    invitedFriends : [Number],
+    groups : [Number],
+    messages : [Number]
 })
 
 var User = mongoose.model('User', userSchema);
