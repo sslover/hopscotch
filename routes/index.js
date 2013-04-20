@@ -191,7 +191,7 @@ exports.addUser = function(req, res) {
 		newUser.name = req.body.name;
 		newUser.fbID = req.body.fbID;
 		newUser.photo = req.body.photo;
-		newUser.geoloqiID = result.access_token;
+		newUser.geoloqiID = geoloqiID;
 
 	// save the newUser to the database
 	newUser.save(function(err){
