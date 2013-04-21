@@ -187,7 +187,7 @@ exports.addUser = function(req, res) {
 	  }
 	});
 
-	createNewUser(geoloqiID){
+	createNewUser = function(geoloqiID){
 		// accept HTTP post data
 		newUser = new models.User();
 			newUser.name = req.body.name;
