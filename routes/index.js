@@ -183,8 +183,8 @@ exports.addUser = function(req, res) {
 	  if(err) {
 	    throw new Error('There has been an error! '+err);
 	  } else {
-	    console.log(result.access_token);
 	    geoloqiID = result.access_token;
+	    console.log("geoloqiID is " + geoloqiID);
 	  }
 	});
 
