@@ -209,13 +209,9 @@ exports.addUser = function(req, res) {
 					console.error("ERROR: While adding geoloqi");
 					console.error(err);			
 				}
-
-				 else {
-					return res.send("There was an error when updating the geoloqi");
-				}
-			res.json({ id: newUser._id,
-					geoID: geoloqiID			
-			 });	
+				res.json({ id: newUser._id,
+						geoID: geoloqiID			
+				 });	
 			}) 
 	  	}
 	});
