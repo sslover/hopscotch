@@ -171,29 +171,11 @@ exports.addUser = function(req, res) {
 	console.log("received new user addition");
 	console.log(req.body);
 
-
-	// create an account at geoloqi
-	session.post('/user/create_anon', {
-	  "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
-	  "client_secret": "ebfb1e4eb1de784c30af5920f3345944",
-	  "key": req.body.fbID
-	}, function(result, err) {
-	  if(err) {
-	    throw new Error('There has been an error! '+err);
-	  } else {
-	    geoloqiID = result.access_token;
-	    console.log("geoloqiID is " + geoloqiID);
-	    createNewUser(geoloqiID);
-	  }
-	});
-
-	function createNewUser (geoloqiID){
-		// accept HTTP post data
+	// save the user to the database first
 		newUser = new models.User();
 			newUser.name = req.body.name;
 			newUser.fbID = req.body.fbID;
 			newUser.photo = req.body.photo;
-			newUser.geoloqiID = geoloqiID;
 
 		// save the newUser to the database
 		newUser.save(function(err){
@@ -209,7 +191,35 @@ exports.addUser = function(req, res) {
 			}
 
 		});
-	}
+
+	//now, let's get them an account in the geoloqi system
+	session.post('/user/create_anon', {
+	  "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
+	  "client_secret": "ebfb1e4eb1de784c30af5920f3345944",
+	  "key": req.body.fbID
+	}, function(result, err) {
+	  if(err) {
+	    throw new Error('There has been an error! '+err);
+	  } else {
+		    console.log("geoloqiID is " + result.access_token);
+				var updatedData = {
+				geoloqiID : req.body.name,
+			}
+			models.User.update({_id:newUser._id}, { $set: updatedData}, function(err, user){
+
+				if (err) {
+					console.error("ERROR: While adding geoloqi");
+					console.error(err);			
+				}
+
+				 else {
+					// unable to find astronaut, return 404
+					console.error("unable to find astronaut: " + astro_id);
+					return res.status(404).render('404.html');
+				}
+			}) 
+	  	}
+	});
 }
 
 //API route to create new user entity
