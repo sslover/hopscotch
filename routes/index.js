@@ -203,11 +203,9 @@ exports.addUser = function(req, res) {
 	  } else {
 		    console.log("geoloqiID is " + result.access_token);
 				var updatedData = {
-				geoloqiID : req.body.name,
+				geoloqiID : result.access_token,
 			}
-			var userID = newUser._id;
-			console.log("userID is " + userID);
-			models.User.update({_id:userID}, { $set: updatedData}, function(err, user){
+			models.User.update({_id:newUser._id}, { $set: updatedData}, function(err, user){
 
 				if (err) {
 					console.error("ERROR: While adding geoloqi");
