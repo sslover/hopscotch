@@ -30,7 +30,7 @@ var Message = mongoose.model('Message', messageSchema);
 var userSchema = new Schema({
 	name : { type: String, required: true },
 	fbID : Number,
-	geoloqiID : Number,
+	geoloqiID : String,
 	photo : String,
     dateCreated : { type: Date, default: Date.now },
     friends : [Number],
