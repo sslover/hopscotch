@@ -187,7 +187,6 @@ exports.addUser = function(req, res) {
 			} else {
 				console.log("Created a new user!");
 				console.log(newUser);
-				res.json({ id: newUser._id });
 			}
 
 		});
@@ -196,7 +195,7 @@ exports.addUser = function(req, res) {
 	session.post('/user/create_anon', {
 	  "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
 	  "client_secret": "ebfb1e4eb1de784c30af5920f3345944",
-	  "key": req.body.fbID
+	  "key": newUser._id
 	}, function(result, err) {
 	  if(err) {
 	    throw new Error('There has been an error! '+err);
@@ -206,7 +205,6 @@ exports.addUser = function(req, res) {
 				geoloqiID : result.access_token,
 			}
 			models.User.update({_id:newUser._id}, { $set: updatedData}, function(err, user){
-
 				if (err) {
 					console.error("ERROR: While adding geoloqi");
 					console.error(err);			
@@ -215,6 +213,9 @@ exports.addUser = function(req, res) {
 				 else {
 					return res.send("There was an error when updating the geoloqi");
 				}
+			res.json({ id: newUser._id,
+					geoID: geoloqiID			
+			 });	
 			}) 
 	  	}
 	});
