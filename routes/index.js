@@ -171,8 +171,6 @@ exports.addUser = function(req, res) {
 	console.log("received new user addition");
 	console.log(req.body);
 
-	// need a variable to store the user's geoloqi ID
-	var geoloqiID;
 
 	// create an account at geoloqi
 	session.post('/user/create_anon', {
@@ -185,31 +183,33 @@ exports.addUser = function(req, res) {
 	  } else {
 	    geoloqiID = result.access_token;
 	    console.log("geoloqiID is " + geoloqiID);
+	    createNewUser(geoloqiID);
 	  }
 	});
 
-	// accept HTTP post data
-	newUser = new models.User();
-		newUser.name = req.body.name;
-		newUser.fbID = req.body.fbID;
-		newUser.photo = req.body.photo;
-		newUser.geoloqiID = geoloqiID;
+	createNewUser(geoloqiID){
+		// accept HTTP post data
+		newUser = new models.User();
+			newUser.name = req.body.name;
+			newUser.fbID = req.body.fbID;
+			newUser.photo = req.body.photo;
+			newUser.geoloqiID = geoloqiID;
 
-	// save the newUser to the database
-	newUser.save(function(err){
-		if (err) {
-			console.error("Error on saving new user");
-			console.error("err");
-			return res.send("There was an error when creating the new user");
+		// save the newUser to the database
+		newUser.save(function(err){
+			if (err) {
+				console.error("Error on saving new user");
+				console.error("err");
+				return res.send("There was an error when creating the new user");
 
-		} else {
-			console.log("Created a new user!");
-			console.log(newUser);
-			res.json({ id: newUser._id });
-		}
+			} else {
+				console.log("Created a new user!");
+				console.log(newUser);
+				res.json({ id: newUser._id });
+			}
 
-	});
-
+		});
+	}
 }
 
 //API route to create new user entity
