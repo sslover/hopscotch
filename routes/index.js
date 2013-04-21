@@ -200,9 +200,10 @@ exports.addUser = function(req, res) {
 	  if(err) {
 	    throw new Error('There has been an error! '+err);
 	  } else {
-		    console.log("geoloqiID is " + result.access_token);
+		    var geoID = result.access_token;
+		    console.log("geoloqiID is " + geoID);
 				var updatedData = {
-				geoloqiID : result.access_token,
+				geoloqiID : geoID,
 			}
 			models.User.update({_id:newUser._id}, { $set: updatedData}, function(err, user){
 				if (err) {
@@ -210,7 +211,7 @@ exports.addUser = function(req, res) {
 					console.error(err);			
 				}
 				res.json({ id: newUser._id,
-						geoID: geoloqiID			
+						geoloqiID : geoID			
 				 });	
 			}) 
 	  	}
