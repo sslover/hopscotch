@@ -213,9 +213,7 @@ exports.addUser = function(req, res) {
 				}
 
 				 else {
-					// unable to find astronaut, return 404
-					console.error("unable to find astronaut: " + astro_id);
-					return res.status(404).render('404.html');
+					return res.send("There was an error when updating the geoloqi");
 				}
 			}) 
 	  	}
