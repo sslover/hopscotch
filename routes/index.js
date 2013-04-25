@@ -186,11 +186,13 @@ exports.addUser = function(req, res) {
 			console.log("we have an existing user!");
 			//else if they do exist, prepare JSON data for response
 			var jsonData = {
-				user : currentUser,
-				status : 'OK'
+				id : currentUser._id,
+				geoloqiID : currentUser.geoloqiID
 			}
 			// send back user details to requestor
-			res.json(jsonData);
+			res.json({ id : currentUser._id,
+				geoloqiID : currentUser.geoloqiID			
+				});
 		}
 	
 		// else, if they are new, add them
