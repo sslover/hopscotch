@@ -176,25 +176,20 @@ exports.addUser = function(req, res) {
 	// query the database for that user
 	var userFBQuery = models.User.findOne({fbID:fb_id});
 	userFBQuery.exec(function(err, currentUser){
-
+		//if there is no user with that FB_ID, add them to database
 		if (err) {
-			return res.status(500).send("There was an error on this user query");
-		}
-
-		//if the currentUser doesn't exist, add them
-		if (currentUser == fb_id) {
-			// if they do exist, prepare JSON data for response
-			console.log("returning user")
-			var jsonData = {
-				user : currentUser,
-				status : 'OK'
-			}
-			// send back user details to requestor
-			res.json(jsonData);
+			addNewUser();
 		}
 		
 		else {
-			addNewUser();
+		//else if they do exist, prepare JSON data for response
+		console.log("existing user")
+		var jsonData = {
+			user : currentUser,
+			status : 'OK'
+		}
+		// send back user details to requestor
+		res.json(jsonData);
 		}
 	});
 
