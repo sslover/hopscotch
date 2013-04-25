@@ -171,6 +171,31 @@ exports.addUser = function(req, res) {
 	console.log("received new user addition");
 	console.log(req.body);
 
+	//see if the user is new or not by checking their unique FB ID
+	var fb_id = req.params.fbID;
+	// query the database for that user
+	var userFBQuery = models.User.findOne({fbID:fb_id});
+	userFBQuery.exec(function(err, currentUser){
+
+		if (err) {
+			return res.status(500).send("There was an error on this user query");
+		}
+
+		//if the currentUser doesn't exist, add them
+		if (currentUser == null) {
+			addNewUser();
+		}
+		
+		//else if they do exist, prepare JSON data for response
+		var jsonData = {
+			user : currentUser,
+			status : 'OK'
+		}
+		// send back user details to requestor
+		res.json(jsonData);
+	});
+
+	function addNewUser(){
 	// save the user to the database first
 		newUser = new models.User();
 			newUser.name = req.body.name;
@@ -190,7 +215,6 @@ exports.addUser = function(req, res) {
 			}
 
 		});
-
 	//now, let's get them an account in the geoloqi system
 	session.post('/user/create_anon', {
 	  "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
@@ -216,6 +240,7 @@ exports.addUser = function(req, res) {
 			}) 
 	  	}
 	});
+  }	
 }
 
 //API route to create new user entity
