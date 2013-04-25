@@ -182,7 +182,7 @@ exports.addUser = function(req, res) {
 		}
 
 		//if the currentUser doesn't exist, add them
-		if (currentUser == userFBQuery) {
+		if (currentUser == fb_id) {
 			// if they do exist, prepare JSON data for response
 			console.log("returning user")
 			var jsonData = {
