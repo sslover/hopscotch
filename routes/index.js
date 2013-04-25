@@ -183,7 +183,8 @@ exports.addUser = function(req, res) {
 
 		//if the currentUser doesn't exist, add them
 		if (currentUser == null) {
-			return res.status(404).render('404.html');
+			console.log("we have a new user!");
+			addNewUser();
 		}
 	
 		//else if they do exist, prepare JSON data for response
