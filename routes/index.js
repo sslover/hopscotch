@@ -186,6 +186,7 @@ exports.addUser = function(req, res) {
 			addNewUser();
 		}
 		
+		else {
 		//else if they do exist, prepare JSON data for response
 		var jsonData = {
 			user : currentUser,
@@ -193,6 +194,7 @@ exports.addUser = function(req, res) {
 		}
 		// send back user details to requestor
 		res.json(jsonData);
+		}
 	});
 
 	function addNewUser(){
