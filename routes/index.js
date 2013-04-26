@@ -317,58 +317,6 @@ exports.addMsg = function(req, res) {
 		newMsg.creator = req.body.creator;
 		newMsg.found = false;
 
-	// var layerName;
-	// //get the users geoloqiID
-	// var creatorID = req.body.creator;
-	// // query the database for that user
-	// var creatorQuery = models.User.findOne({creatorID:geoloqiID});
-	// creatorQuery.exec(function(err, currentCreator){
-	// 	if (err) {
-	// 		return res.status(500).send("There was an error on this user query");
-	// 	}
-
-	// 	//if the currentUser exists, send back the details
-	// 	if (currentCreator) {
-	// 		console.log("creator found");
-	// 		layerName = currentCreator.name + Date.now(); 
-	// 	}
-	
-	// 	// else, if they are new, add them
-	// 	else {
-	// 		console.log("creator does not exist :(");
-	// 	}
-	// });
-
-	// //now, let's send the info the geoloqi
-	// session.post('/layer/create', {
-	//   "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
-	//   "client_secret": "ebfb1e4eb1de784c30af5920f3345944",
-	//   "name":layerName,
-	//   "latitude":45.5246,
-	//   "longitude":-122.6843,
-	//   "radius":500
-	//   "key": newUser._id
-	// }, function(result, err) {
-	//   if(err) {
-	//     throw new Error('There has been an error! '+err);
-	//   } else {
-	// 	    var geoID = result.access_token;
-	// 	    console.log("geoloqiID is " + geoID);
-	// 			var updatedData = {
-	// 			geoloqiID : geoID,
-	// 		}
-	// 		models.User.update({_id:newUser._id}, { $set: updatedData}, function(err, user){
-	// 			if (err) {
-	// 				console.error("ERROR: While adding geoloqi");
-	// 				console.error(err);			
-	// 			}
-	// 			res.json({ id: newUser._id,
-	// 					geoloqiID : geoID			
-	// 			 });	
-	// 		}) 
-	//   	}
-	// });	
-
 	// save the newMsg to the database
 	newMsg.save(function(err){
 		if (err) {
@@ -381,8 +329,58 @@ exports.addMsg = function(req, res) {
 			console.log(newMsg);
 			res.json({ id: newMsg._id });
 		}
-
 	});
+
+	// now lets update the layers of all users involved in the message
+	for(u in newMsg.users) {
+		// loop through each userID in the array, and update their layer with the new message
+		console.log(newMsg.users[u]);
+		var currentUserID = newMsg.users[u];
+		// query the database for that user
+		var userQuery = models.User.findOne({geoloqiID:currentUserID});
+		userQuery.exec(function(err, currentUser){
+
+			if (err) {
+				return res.status(500).send("There was an error on this user query");
+			}
+
+			//if the currentUser exists, update their layer
+			if (currentUser) {
+				console.log("updating layer for user " + currentUser.name);
+				session.post('/place/create', {
+				  "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
+				  "client_secret": "ebfb1e4eb1de784c30af5920f3345944",
+				  "layer_id": currentUser.layerID,
+				  "latitude": newMsg.lat,
+				  "longitude": newMsg.lon
+				}, function(result, err) {
+				  if(err) {
+				    throw new Error('There has been an error! '+err);
+				  } else {
+					    var plcID = result.place_id;
+					    console.log("placeID is " + plcID);
+							var updatedData = {
+							messages : {
+								place : plcID,
+								id : newMsg._id
+							}
+						}
+						models.User.update({_id:currentUser._id}, { $set: updatedData}, function(err, user){
+							if (err) {
+								console.error("ERROR: While adding updating place/message");
+								console.error(err);			
+							}
+						}) 
+				  	}
+				});
+			}
+		
+			// else, they are not in the system
+			else {
+				console.log("no user found");
+			}
+		});
+	}
 
 }
 

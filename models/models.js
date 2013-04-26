@@ -20,7 +20,7 @@ var messageSchema = new Schema({
 	lat : String,
 	lon : String,
 	groups : [groupSchema],
-	users : [userSchema],
+	users : [String],
 	creator : String,
 	found : Boolean
 })
@@ -38,7 +38,10 @@ var userSchema = new Schema({
     friends : [Number],
     invitedFriends : [Number],
     groups : [Number],
-    messages : [Number]
+    messages : [{
+    	place : String,
+    	id : Number
+    }]
 })
 
 var User = mongoose.model('User', userSchema);
