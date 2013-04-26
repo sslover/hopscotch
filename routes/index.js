@@ -334,8 +334,9 @@ exports.addMsg = function(req, res) {
 	// now lets update the layers of all users involved in the message
 	for(u in newMsg.users) {
 		// loop through each userID in the array, and update their layer with the new message
-		console.log(newMsg.users[u]);
+		console.log("the current user in the array is " + newMsg.users[u]);
 		var currentUserID = newMsg.users[u];
+		console.log("the current user in the array is " + currentUserID);
 		// query the database for that user
 		var userQuery = models.User.findOne({geoloqiID:currentUserID});
 		userQuery.exec(function(err, currentUser){
