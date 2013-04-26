@@ -333,9 +333,12 @@ exports.addMsg = function(req, res) {
 
 	console.log("length of the array is " + newMsg.users.length);
 	// now lets update the layers of all users involved in the message
+	// this is a 3-step process:
+	// 1. Create the Place and save that in the userschema
+	// 2. Create the Trigger and save that in the userscema
+	// 3. Update the userschema with this new data
 	for(var i = 0; i < newMsg.users.length; i++) {
 		// loop through each userID in the array, and update their layer with the new message
-		console.log("the current user in the array is " + newMsg.users[i]);
 		var currentUserID = newMsg.users[i];
 		console.log("the current user in the array is " + currentUserID);
 		// query the database for that user
@@ -359,15 +362,14 @@ exports.addMsg = function(req, res) {
 				  if(err) {
 				    throw new Error('There has been an error! '+err);
 				  } else {
-					    var plcID = result.place_id;
-					    console.log("placeID is " + plcID);
-							var updatedData = {
-							messages : {
-								place : plcID,
-								id : newMsg._id
-							}
-						}
-						models.User.update({_id:currentUser._id}, {$push: [{messages : updatedData}]}, function(err, user){
+				  		console.log("placeID is " + result.place_id);
+				  		// put the data in the place schema associated with that user
+					    var place = {
+					    	place: result.place_id,
+					    	messageID: newMsg._id,
+					    	content: newMsg.content
+					    } 
+						models.User.update({_id:currentUser._id}, {$push: { messages : place }}, function(err, user){
 							if (err) {
 								console.error("ERROR: While adding updating place/message");
 								console.error(err);			
