@@ -364,12 +364,12 @@ exports.addMsg = function(req, res) {
 				  } else {
 				  		console.log("placeID is " + result.place_id);
 				  		// put the data in the place schema associated with that user
-					    var place = {
-					    	place: result.place_id,
+					    var placeData = {
+					    	placeID: result.place_id,
 					    	messageID: newMsg._id,
 					    	content: newMsg.content
 					    } 
-						models.User.update({_id:currentUser._id}, {$push: { messages : place }},{upsert:true}, function(err, user){
+						models.User.update({_id:currentUser._id}, {$push: { messages : placeData }},{upsert:true}, function(err, user){
 							if (err) {
 								console.error("ERROR: While adding updating place/message");
 								console.error(err);			
