@@ -367,7 +367,7 @@ exports.addMsg = function(req, res) {
 								id : newMsg._id
 							}
 						}
-						models.User.update({_id:currentUser._id}, { $set: updatedData}, function(err, user){
+						models.User.update({_id:currentUser._id}, { $push: updatedData}, function(err, user){
 							if (err) {
 								console.error("ERROR: While adding updating place/message");
 								console.error(err);			

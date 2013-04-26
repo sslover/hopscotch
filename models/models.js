@@ -39,8 +39,8 @@ var userSchema = new Schema({
     invitedFriends : [Number],
     groups : [Number],
     messages : [{
-    	place : String,
-    	id : Number
+    	placeID : String,
+    	id : Number,
     }]
 })
 
