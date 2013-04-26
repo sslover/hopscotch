@@ -32,6 +32,8 @@ var placeSchema = new Schema({
 	placeID : String,
 	messageID : Number,
 	content : String,
+	lat : String,
+	lon : String,
 	triggers : [triggerSchema]
 })
 
