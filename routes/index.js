@@ -331,6 +331,7 @@ exports.addMsg = function(req, res) {
 		}
 	});
 
+	console.log("length of the array is " + newMsg.users.length);
 	// now lets update the layers of all users involved in the message
 	for(var i = 0; i < newMsg.users.length; i++) {
 		// loop through each userID in the array, and update their layer with the new message
