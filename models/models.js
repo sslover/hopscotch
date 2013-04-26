@@ -19,8 +19,9 @@ var messageSchema = new Schema({
 	content : String,
 	lat : String,
 	lon : String,
-	users : [Number],
-	creator : Number,
+	groups : [groupSchema],
+	users : [userSchema],
+	creator : String,
 	found : Boolean
 })
 
@@ -31,6 +32,7 @@ var userSchema = new Schema({
 	name : { type: String, required: true },
 	fbID : Number,
 	geoloqiID : String,
+	layerID : String,
 	photo : String,
     dateCreated : { type: Date, default: Date.now },
     friends : [Number],

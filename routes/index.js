@@ -168,7 +168,7 @@ exports.returnGrpData = function(req, res) {
 //API route to create new user entity
 exports.addUser = function(req, res) {
 
-	console.log("received new user addition");
+	console.log("received a user request");
 	console.log(req.body);
 
 	//see if the user is new or not by checking their unique FB ID
@@ -247,6 +247,29 @@ exports.addUser = function(req, res) {
 			}) 
 	  	}
 	});
+	// now, let's give them a unique layerID that will hold all their messages
+	session.post('/layer/create', {
+	  "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
+	  "client_secret": "ebfb1e4eb1de784c30af5920f3345944",
+	  "key": newUser._id,
+	  "name": newUser.name
+	}, function(result, err) {
+	  if(err) {
+	    throw new Error('There has been an error! '+err);
+	  } else {
+		    var layID = result.layer_id;
+		    console.log("layerID is " + layID);
+				var updatedData = {
+				layerID : layID,
+			}
+			models.User.update({_id:newUser._id}, { $set: updatedData}, function(err, user){
+				if (err) {
+					console.error("ERROR: While adding layerID");
+					console.error(err);			
+				}
+			}) 
+	  	}
+	});
   }	
 }
 
@@ -294,6 +317,57 @@ exports.addMsg = function(req, res) {
 		newMsg.creator = req.body.creator;
 		newMsg.found = false;
 
+	// var layerName;
+	// //get the users geoloqiID
+	// var creatorID = req.body.creator;
+	// // query the database for that user
+	// var creatorQuery = models.User.findOne({creatorID:geoloqiID});
+	// creatorQuery.exec(function(err, currentCreator){
+	// 	if (err) {
+	// 		return res.status(500).send("There was an error on this user query");
+	// 	}
+
+	// 	//if the currentUser exists, send back the details
+	// 	if (currentCreator) {
+	// 		console.log("creator found");
+	// 		layerName = currentCreator.name + Date.now(); 
+	// 	}
+	
+	// 	// else, if they are new, add them
+	// 	else {
+	// 		console.log("creator does not exist :(");
+	// 	}
+	// });
+
+	// //now, let's send the info the geoloqi
+	// session.post('/layer/create', {
+	//   "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
+	//   "client_secret": "ebfb1e4eb1de784c30af5920f3345944",
+	//   "name":layerName,
+	//   "latitude":45.5246,
+	//   "longitude":-122.6843,
+	//   "radius":500
+	//   "key": newUser._id
+	// }, function(result, err) {
+	//   if(err) {
+	//     throw new Error('There has been an error! '+err);
+	//   } else {
+	// 	    var geoID = result.access_token;
+	// 	    console.log("geoloqiID is " + geoID);
+	// 			var updatedData = {
+	// 			geoloqiID : geoID,
+	// 		}
+	// 		models.User.update({_id:newUser._id}, { $set: updatedData}, function(err, user){
+	// 			if (err) {
+	// 				console.error("ERROR: While adding geoloqi");
+	// 				console.error(err);			
+	// 			}
+	// 			res.json({ id: newUser._id,
+	// 					geoloqiID : geoID			
+	// 			 });	
+	// 		}) 
+	//   	}
+	// });	
 
 	// save the newMsg to the database
 	newMsg.save(function(err){
