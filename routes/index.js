@@ -254,7 +254,6 @@ exports.addUser = function(req, res) {
 				 });	
 			}) 
 	  	createLayer();
-	  	addNewUser();
 	  	}
 	});
 	function createLayer(){
