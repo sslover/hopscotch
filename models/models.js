@@ -56,7 +56,7 @@ var Place = mongoose.model('Place', placeSchema);
 var userSchema = new Schema({
 	name : { type: String, required: true },
 	fbID : Number,
-	geoloqiID : String,
+	geoloqiTOKEN : String,
 	geoloqiUserID : String,
 	layerID : String,
 	photo : String,

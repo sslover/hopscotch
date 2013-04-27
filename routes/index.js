@@ -187,11 +187,12 @@ exports.addUser = function(req, res) {
 			//else if they do exist, prepare JSON data for response
 			var jsonData = {
 				id : currentUser._id,
-				geoloqiID : currentUser.geoloqiID
+				geoloqiTOKEN : currentUser.geoloqiTOKEN
 			}
 			// send back user details to requestor
 			res.json({ id : currentUser._id,
-				geoloqiID : currentUser.geoloqiID			
+				geoloqiTOKEN : currentUser.geoloqiTOKEN,
+				geoloqiUserID : currentUser.geoloqiUserID			
 				});
 		}
 	
@@ -233,12 +234,12 @@ exports.addUser = function(req, res) {
 	  } else {
 		    console.log("USER CREATED RESPONSE");
 		    console.log(result);
-		    var geoID = result.access_token;
+		    var geoTOKEN = result.access_token;
 		    var userID = result.user_id;
-		    console.log("geoloqiID is " + geoID);
+		    console.log("geoloqiTOKEN is " + geoTOKEN);
 		    console.log("userID is " + result.user_id);
 				var updatedData = {
-				geoloqiID : geoID,
+				geoloqiTOKEN : geoID,
 				geoloqiUserID : userID  
 			}
 			models.User.update({_id:newUser._id}, { $set: updatedData}, function(err, user){
@@ -247,7 +248,7 @@ exports.addUser = function(req, res) {
 					console.error(err);			
 				}
 				res.json({ id: newUser._id,
-						geoloqiID : geoID,
+						geoloqiTOKEN : geoID,
 						geoloqiUserID : userID 			
 				 });	
 			}) 
@@ -361,7 +362,7 @@ exports.addMsg = function(req, res) {
 		// loop through each userID in the array, and update their layer with the new message
 		var currentUserID = newMsg.users[i];
 		console.log("the current user in the array is " + currentUserID);
-		var userQuery = models.User.findOne({geoloqiID:currentUserID});
+		var userQuery = models.User.findOne({geoloqiUserID:currentUserID});
 		userQuery.exec(function(err, currentUser){
 
 			if (err) {
