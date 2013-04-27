@@ -253,8 +253,11 @@ exports.addUser = function(req, res) {
 						geoloqiUserID : userID 			
 				 });	
 			}) 
+	  	createLayer();
+	  	addNewUser();
 	  	}
 	});
+	function createLayer(){
 	// now, let's give them a unique layerID that will hold all their messages
 	session.post('/layer/create', {
 	  "key": newUser._id,
@@ -288,7 +291,8 @@ exports.addUser = function(req, res) {
 			  	}
 			});
 	  	}//close else function in create layer
-	});// close create layer function
+	});// close create layer geoloqi call
+	}//close createLayer function
   }	//close AddNewUser function
 } // main addUser function
 
