@@ -378,6 +378,7 @@ exports.addMsg = function(req, res) {
 							    // we have the triggerID
 						  		console.log("triggerID is " + result.trigger_id);
 						  		console.log("text is  " + result.text);
+						  		console.log(result);
 						  		// put the data in the place schema associated with that user
 							    var placeData = {
 							    	placeID: result.place_id,
