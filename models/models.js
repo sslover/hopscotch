@@ -57,6 +57,7 @@ var userSchema = new Schema({
 	name : { type: String, required: true },
 	fbID : Number,
 	geoloqiID : String,
+	geoloqiUserID : String,
 	layerID : String,
 	photo : String,
     dateCreated : { type: Date, default: Date.now },

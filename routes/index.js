@@ -239,6 +239,7 @@ exports.addUser = function(req, res) {
 		    console.log("userID is " + result.user_id);
 				var updatedData = {
 				geoloqiID : geoID,
+				geoloqiUserID : userID  
 			}
 			models.User.update({_id:newUser._id}, { $set: updatedData}, function(err, user){
 				if (err) {
@@ -246,7 +247,8 @@ exports.addUser = function(req, res) {
 					console.error(err);			
 				}
 				res.json({ id: newUser._id,
-						geoloqiID : geoID			
+						geoloqiID : geoID,
+						geoloqiUserID : userID 			
 				 });	
 			}) 
 	  	}
