@@ -43,7 +43,10 @@ var placeSchema = new Schema({
 	content : String,
 	lat : String,
 	lon : String,
-	triggers : triggerSchema
+	trigger : {
+        type: Schema.ObjectId,
+        ref: 'triggerSchema'
+	}
 })
 
 var Place = mongoose.model('Place', placeSchema);
