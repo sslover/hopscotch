@@ -45,7 +45,7 @@ var placeSchema = new Schema({
 	lon : String,
 	trigger : {
         type: Schema.ObjectId,
-        ref: 'triggerSchema'
+        ref: 'Trigger'
 	}
 })
 
