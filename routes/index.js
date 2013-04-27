@@ -363,7 +363,7 @@ exports.addMsg = function(req, res) {
 				  if(err) {
 				    throw new Error('There has been an error! '+err);
 				  } else {
-				  		console.log("!!!! HERE IS THE PLACE RESPONSE!!!";
+				  		console.log("!!!! HERE IS THE PLACE RESPONSE!!!");
 				  		console.log(result);
 				  		// now that we have the placeID, let's add the trigger.. function for getting the triggerID goes next
 						session.post('/trigger/create', {
@@ -377,7 +377,7 @@ exports.addMsg = function(req, res) {
 						    throw new Error('There has been an error! '+err);
 						  } else {
 							    // we have the triggerID
-						  		console.log("!!!! HERE IS THE TRIGGER RESPONSE!!!";
+						  		console.log("!!!! HERE IS THE TRIGGER RESPONSE!!!");
 						  		console.log(result);
 						  		// put the data in the place schema associated with that user
 							    var placeData = {
