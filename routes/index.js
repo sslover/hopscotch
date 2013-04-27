@@ -231,6 +231,8 @@ exports.addUser = function(req, res) {
 	  if(err) {
 	    throw new Error('There has been an error! '+err);
 	  } else {
+		    console.log("USER CREATED RESPONSE");
+		    console.log(result);
 		    var geoID = result.access_token;
 		    var userID = result.user_id;
 		    console.log("geoloqiID is " + geoID);
