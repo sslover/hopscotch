@@ -368,6 +368,7 @@ exports.addMsg = function(req, res) {
 						  "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
 						  "client_secret": "ebfb1e4eb1de784c30af5920f3345944",
 						  "place_id": result.place_id,
+						  "radius": 9999,
 						  "type": "message",
 						  "text": newMsg.content
 						}, function(result, err) {
