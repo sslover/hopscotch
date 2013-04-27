@@ -229,7 +229,7 @@ exports.addUser = function(req, res) {
 	  "key": newUser._id
 	}, function(result, err) {
 	  if(err) {
-	    throw new Error('There has been an error! '+err);
+	    throw new Error('There has been an error! in user/create_anon '+err);
 	  } else {
 		    console.log("USER CREATED RESPONSE");
 		    console.log(result);
