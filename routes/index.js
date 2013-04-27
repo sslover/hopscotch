@@ -172,6 +172,8 @@ exports.addUser = function(req, res) {
 	console.log("received a user request");
 	console.log(req.body);
 
+	var userUD; // this is a variable in the function needed to map the user properly
+
 	//see if the user is new or not by checking their unique FB ID
 	var fb_id = req.body.fbID;
 	// query the database for that user
@@ -236,7 +238,7 @@ exports.addUser = function(req, res) {
 		    console.log("USER CREATED RESPONSE");
 		    console.log(result);
 		    var geoTOKEN = result.access_token;
-		    var userID = result.user_id;
+		    userID = result.user_id;
 		    console.log("geoloqiTOKEN is " + geoTOKEN);
 		    console.log("userID is " + result.user_id);
 				var updatedData = {
