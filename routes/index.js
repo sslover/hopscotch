@@ -384,7 +384,7 @@ exports.addMsg = function(req, res) {
 							    	content: newMsg.content,
 							    	lat: newMsg.lat,
 							    	lon: newMsg.lon,
-							    	triggers: {
+							    	trigger: {
 										triggerID : result.trigger_id,
 										placeID : result.place_id,
 										text : result.text,
