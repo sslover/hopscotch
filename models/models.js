@@ -27,6 +27,15 @@ var messageSchema = new Schema({
 
 var Message = mongoose.model('Message', messageSchema);
 
+var triggerSchema = new Schema ({
+	triggerID : String,
+	placeID : String,
+	text : String,
+	type : String
+})
+
+var Trigger = mongoose.model('Trigger', triggerSchema);
+
 // place schema to define the user's message locations
 var placeSchema = new Schema({
 	placeID : String,
@@ -38,15 +47,6 @@ var placeSchema = new Schema({
 })
 
 var Place = mongoose.model('Place', placeSchema);
-
-var triggerSchema = new Schema ({
-	triggerID : String,
-	placeID : String,
-	text : String,
-	type : String
-})
-
-var Trigger = mongoose.model('Trigger', triggerSchema);
 
 // user schema
 var userSchema = new Schema({
