@@ -13,7 +13,8 @@ var models = require("../models/models.js"); //db model
 //models.Message.findOne(...
 
 var geoloqi = require('geoloqi');
-var session = new geoloqi.Session({'access_token':'b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5'});	
+var session = new geoloqi.Session({'access_token':'b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5'});
+var accessToken = "b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5";
 
 /*
 	GET /
@@ -276,6 +277,7 @@ exports.addUser = function(req, res) {
 			}) 
 	  		//let's subscribe the user to the layer
 			session.post('layer/subscribe/' + layID, {
+			  "Authorization": "OAuth b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5",
 			  "user_id": newUser.geoloqiUserID
 			}, function(result, err) {
 			  if(err) {
@@ -370,6 +372,7 @@ exports.addMsg = function(req, res) {
 				console.log("updating layer for user " + currentUser.name);
 				//create the place in geoloqi; the place maps to the message
 				session.post('/place/create', {
+			  	  "Authorization": "OAuth b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5",
 				  "layer_id": currentUser.layerID,
 				  "radius": 9999,
 				  "latitude": newMsg.lat,
@@ -382,6 +385,7 @@ exports.addMsg = function(req, res) {
 				  		console.log(result);
 				  		// now that we have the placeID, let's add the trigger.. function for getting the triggerID goes next
 						session.post('/trigger/create', {
+			  	  		  "Authorization": "OAuth b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5",
 						  "place_id": result.place_id,
 						  "type": "callback",
 						  "url": "http://geonotes.herokuapp.com/getCallback",
