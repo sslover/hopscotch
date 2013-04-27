@@ -389,6 +389,7 @@ exports.addMsg = function(req, res) {
 										triggerID : result.trigger_id,
 										placeID : result.place_id,
 										text : result.text,
+										radius : result.place.radius,
 										type : "message"
 							    	}
 							    }

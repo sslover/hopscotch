@@ -31,6 +31,7 @@ var triggerSchema = new Schema ({
 	triggerID : String,
 	placeID : String,
 	text : String,
+	radius : Number,
 	type : String
 })
 
@@ -45,7 +46,7 @@ var placeSchema = new Schema({
 	lon : String,
 	trigger : {
         type: Schema.ObjectId,
-        ref: 'Trigger'
+        ref: 'triggerSchema'
 	}
 })
 
