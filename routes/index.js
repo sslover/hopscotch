@@ -384,12 +384,12 @@ exports.addMsg = function(req, res) {
 							    	content: newMsg.content,
 							    	lat: newMsg.lat,
 							    	lon: newMsg.lon,
-							   //  	triggers : {
-										// triggerID : result.trigger_id,
-										// placeID : result.place_id,
-										// text : result.text,
-										// type : message
-							   //  	}
+							    	triggers: {
+										triggerID : result.trigger_id,
+										placeID : result.place_id,
+										text : result.text,
+										type : "message"
+							    	}
 							    }
 								models.User.update({_id:currentUser._id}, {$push: { messages : placeData }},{upsert:true}, function(err, user){
 									if (err) {
