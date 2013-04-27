@@ -282,7 +282,7 @@ exports.addUser = function(req, res) {
 	  		console.log("the user ID that we are subscribing to this layer is " + userID);
 	  		//let's subscribe the user to the layer
 			session.post('layer/subscribe/' + layID, {
-			  "Authorization": "OAuth b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5",
+			  "Authorization": "OAuth " + newUser.geoloqiTOKEN,
 			  "user_id": userID
 			}, function(result, err) {
 			  if(err) {
@@ -378,7 +378,7 @@ exports.addMsg = function(req, res) {
 				console.log("updating layer for user " + currentUser.name);
 				//create the place in geoloqi; the place maps to the message
 				session.post('/place/create', {
-			  	  "Authorization": "OAuth b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5",
+			  	  "Authorization": "OAuth " + currentUser.geoloqiTOKEN,
 				  "layer_id": currentUser.layerID,
 				  "radius": 9999,
 				  "latitude": newMsg.lat,
@@ -391,7 +391,7 @@ exports.addMsg = function(req, res) {
 				  		console.log(result);
 				  		// now that we have the placeID, let's add the trigger.. function for getting the triggerID goes next
 						session.post('/trigger/create', {
-			  	  		  "Authorization": "OAuth b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5",
+			  	  		  "Authorization": "OAuth " + currentUser.geoloqiTOKEN,
 						  "place_id": result.place_id,
 						  "type": "callback",
 						  "url": "http://geonotes.herokuapp.com/getCallback",
