@@ -40,7 +40,10 @@ var placeSchema = new Schema({
 var Place = mongoose.model('Place', placeSchema);
 
 var triggerSchema = new Schema ({
-	triggerID : String
+	triggerID : String,
+	placeID : String,
+	text : String,
+	type : String
 })
 
 var Trigger = mongoose.model('Trigger', triggerSchema);

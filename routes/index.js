@@ -330,7 +330,7 @@ exports.addMsg = function(req, res) {
 			res.json({ id: newMsg._id });
 		}
 	});
-
+	console.log("moving on to updating their info with geoloqi");
 	console.log("length of the array is " + newMsg.users.length);
 	// now lets update the layers of all users involved in the message
 	// this is a 3-step process:
@@ -341,7 +341,6 @@ exports.addMsg = function(req, res) {
 		// loop through each userID in the array, and update their layer with the new message
 		var currentUserID = newMsg.users[i];
 		console.log("the current user in the array is " + currentUserID);
-		// query the database for that user
 		var userQuery = models.User.findOne({geoloqiID:currentUserID});
 		userQuery.exec(function(err, currentUser){
 
@@ -352,6 +351,7 @@ exports.addMsg = function(req, res) {
 			//if the currentUser exists, update their layer
 			if (currentUser) {
 				console.log("updating layer for user " + currentUser.name);
+				//create the place in geoloqi; the place maps to the message
 				session.post('/place/create', {
 				  "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
 				  "client_secret": "ebfb1e4eb1de784c30af5920f3345944",
@@ -363,33 +363,51 @@ exports.addMsg = function(req, res) {
 				    throw new Error('There has been an error! '+err);
 				  } else {
 				  		console.log("placeID is " + result.place_id);
-				  		// put the data in the place schema associated with that user
-					    var placeData = {
-					    	placeID: result.place_id,
-					    	messageID: newMsg._id,
-					    	content: newMsg.content,
-					    	lat: newMsg.lat,
-					    	lon: newMsg.lon
-					    } 
-						models.User.update({_id:currentUser._id}, {$push: { messages : placeData }},{upsert:true}, function(err, user){
-							if (err) {
-								console.error("ERROR: While adding updating place/message");
-								console.error(err);			
-							}
-						}) 
-				  	}
-				});
-			}
+				  		// now that we have the placeID, let's add the trigger.. function for getting the triggerID goes next
+						session.post('/trigger/create', {
+						  "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
+						  "client_secret": "ebfb1e4eb1de784c30af5920f3345944",
+						  "place_id": result.place_id,
+						  "type": message,
+						  "text": newMsg.content
+						}, function(result, err) {
+						  if(err) {
+						    throw new Error('There has been an error! '+err);
+						  } else {
+							    // we have the triggerID
+						  		console.log("triggerID is " + result.trigger_id);
+						  		console.log("text is  " + result.text);
+						  		// put the data in the place schema associated with that user
+							    var placeData = {
+							    	placeID: result.place_id,
+							    	messageID: newMsg._id,
+							    	content: newMsg.content,
+							    	lat: newMsg.lat,
+							    	lon: newMsg.lon,
+							    	triggers : {
+										triggerID : result.trigger_id,
+										placeID : result.place_id,
+										text : result.text,
+										type : message
+							    	}
+							    }
+								models.User.update({_id:currentUser._id}, {$push: { messages : placeData }},{upsert:true}, function(err, user){
+									if (err) {
+										console.error("ERROR: While adding updating place/message");
+										console.error(err);			
+									}
+								}) 
+						  	} //ends the else stament in the trigger/create function
+						});//ends the trigger/create function 
+				  	}//ends the else statement in the place/create geoloqi function
+				});//ends the the place/create/ geoloqi function
+			}// ends the currentUser if statement, which handles updating all users in the array
 		
 			// else, they are not in the system
 			else {
 				console.log("no user found");
 			}
-		});
-	}
 
-}
-
-
-
-
+		});//ends the userQuery function that is updating the user
+  } // ends the for loop iterating through all the users
+} // ends the addMsg function
