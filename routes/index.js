@@ -275,27 +275,18 @@ exports.addUser = function(req, res) {
 				}
 			}) 
 	  		//let's subscribe the user to the layer
-			// session.post('layer/subscribe/' + layID, {
-			//   "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
-			//   "client_secret": "ebfb1e4eb1de784c30af5920f3345944",
-			//   "user_id": userID
-			// }, function(result, err) {
-			//   if(err) {
-			//     throw new Error('There has been an error! '+err);
-			//   } else {
-			// 	    //var layID = result.layer_id;
-			// 	    console.log("layerID is " + layID);
-			// 			var updatedData = {
-			// 			layerID : layID,
-			// 		}
-			// 		models.User.update({_id:newUser._id}, { $set: updatedData}, function(err, user){
-			// 			if (err) {
-			// 				console.error("ERROR: While adding layerID");
-			// 				console.error(err);			
-			// 			}
-			// 		}) 			 
-			//   	}
-			// });//close function to subscribe user to layer
+			session.post('layer/subscribe/' + layID, {
+			  "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
+			  "client_secret": "ebfb1e4eb1de784c30af5920f3345944",
+			  "user_id": newUser.geoloqiUserID
+			}, function(result, err) {
+			  if(err) {
+			    throw new Error('There has been an error! in /layer/subscribe/ '+err);
+			  } else {
+				    console.log("USER SUBCSCRIBED RESPONSE");
+				    console.log(result);
+			  	}
+			});
 	  	}//close else function in create layer
 	});// close create layer function
   }	//close AddNewUser function
