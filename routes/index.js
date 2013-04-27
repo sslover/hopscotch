@@ -260,7 +260,7 @@ exports.addUser = function(req, res) {
 	    throw new Error('There has been an error! '+err);
 	  } else {
 		    var layID = result.layer_id;
-		 //    console.log("layerID is " + layID);
+		 	console.log("layerID is " + layID);
 			// 	var updatedData = {
 			// 	layerID : layID,
 			// }
