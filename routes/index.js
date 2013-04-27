@@ -390,7 +390,8 @@ exports.addMsg = function(req, res) {
 						  "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
 						  "client_secret": "ebfb1e4eb1de784c30af5920f3345944",
 						  "place_id": result.place_id,
-						  "type": "message",
+						  "type": "callback",
+						  "url": "http://geonotes.herokuapp.com/getCallback",
 						  "text": newMsg.content
 						}, function(result, err) {
 						  if(err) {
@@ -434,3 +435,8 @@ exports.addMsg = function(req, res) {
 		});//ends the userQuery function that is updating the user
   } // ends the for loop iterating through all the users
 } // ends the addMsg function
+
+exports.getCallback = function(req, res) {
+	console.log("callback from geoloqi!");
+	console.log(req.body);
+}

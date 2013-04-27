@@ -75,6 +75,9 @@ app.post('/addUser',routes.addUser);
 app.post('/addGroup',routes.addGroup);
 app.post('/addMsg',routes.addMsg);
 
+app.get('getCallback', routes.getCallback);
+
+
 // in case we need to respond to posts for specific data
 //app.post('/getUser',routes.getUser);
 //app.post('/getGroup',routes.getGroup);
