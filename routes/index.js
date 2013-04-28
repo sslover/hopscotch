@@ -284,7 +284,7 @@ exports.addUser = function(req, res) {
 	  		console.log("the layer URL is layer/subscribe/" + layID);
 	  		//let's subscribe the user to the layer
 			session.post('layer/subscribe/' + layID, {
-			  "Authorization": "OAuth " + geoTOKEN
+			  "Authorization": "OAuth " + geoTOKEN,
 			  "user_id": userID
 			}, function(result, err) {
 			  if(err) {
