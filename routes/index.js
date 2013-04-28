@@ -378,6 +378,7 @@ exports.addMsg = function(req, res) {
 			//if the currentUser exists, update their layer
 			if (currentUser) {
 				console.log("updating layer for user " + currentUser.name);
+				console.log("the layer that we are adding the place is " + currentUser.layerID);
 				//create the place in geoloqi; the place maps to the message
 				session.post('/place/create', {
 			  	  "Authorization": "OAuth " + currentUser.geoloqiTOKEN,
