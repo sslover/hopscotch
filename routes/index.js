@@ -393,8 +393,7 @@ exports.addMsg = function(req, res) {
 						session.post('/trigger/create', {
 			  	  		  "Authorization": "OAuth " + currentUser.geoloqiTOKEN,
 						  "place_id": result.place_id,
-						  "type": "callback",
-						  "url": "http://geonotes.herokuapp.com/getCallback",
+						  "type": "message",
 						  "text": newMsg.content
 						}, function(result, err) {
 						  if(err) {
