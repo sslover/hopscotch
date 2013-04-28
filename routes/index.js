@@ -285,7 +285,7 @@ exports.addUser = function(req, res) {
 	  		//let's subscribe the user to the layer
 			session.post('layer/subscribe/' + layID, {
 			  "Authorization": "OAuth " + geoTOKEN
-			  // "user_id": userID
+			  "user_id": userID
 			}, function(result, err) {
 			  if(err) {
 			    throw new Error('There has been an error! in /layer/subscribe/ '+err);
