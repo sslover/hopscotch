@@ -283,9 +283,8 @@ exports.addUser = function(req, res) {
 	  		console.log("the user ID that we are subscribing to this layer is " + userID + " and the geoloqiTOKEN is " + geoTOKEN);
 	  		console.log("the layer URL is layer/subscribe/" + layID);
 	  		//let's subscribe the user to the layer
-			session.post('layer/subscribe/', {
+			session.post('layer/subscribe/' + layID, {
 			  "Authorization": "OAuth " + geoTOKEN,
-			  "layer_id": layID, 
 			  "user_id": userID
 			}, function(result, err) {
 			  if(err) {
