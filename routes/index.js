@@ -172,7 +172,8 @@ exports.addUser = function(req, res) {
 	console.log("received a user request");
 	console.log(req.body);
 
-	var userUD; // this is a variable in the function needed to map the user properly
+	var userID; // this is a variable in the function needed to map the user properly
+	var geoTOKEN; // need this to authenticate the user
 
 	//see if the user is new or not by checking their unique FB ID
 	var fb_id = req.body.fbID;
@@ -237,7 +238,7 @@ exports.addUser = function(req, res) {
 	  } else {
 		    console.log("USER CREATED RESPONSE");
 		    console.log(result);
-		    var geoTOKEN = result.access_token;
+		    geoTOKEN = result.access_token;
 		    userID = result.user_id;
 		    console.log("geoloqiTOKEN is " + geoTOKEN);
 		    console.log("userID is " + result.user_id);
@@ -279,11 +280,11 @@ exports.addUser = function(req, res) {
 					console.error(err);			
 				}
 			}) 
-	  		console.log("the user ID that we are subscribing to this layer is " + userID + "and the geoloqiTOKEN is " + newUser.geoloqiTOKEN);
+	  		console.log("the user ID that we are subscribing to this layer is " + userID + " and the geoloqiTOKEN is " + geoTOKEN);
 	  		console.log("the layer URL is layer/subscribe/" + layID);
 	  		//let's subscribe the user to the layer
 			session.post('layer/subscribe/' + layID, {
-			  "Authorization": "OAuth " + newUser.geoloqiTOKEN
+			  "Authorization": "OAuth " + geoTOKEN
 			  // "user_id": userID
 			}, function(result, err) {
 			  if(err) {
