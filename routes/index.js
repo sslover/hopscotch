@@ -279,11 +279,12 @@ exports.addUser = function(req, res) {
 					console.error(err);			
 				}
 			}) 
-	  		console.log("the user ID that we are subscribing to this layer is " + userID);
+	  		console.log("the user ID that we are subscribing to this layer is " + userID + "and the geoloqiTOKEN is " + newUser.geoloqiTOKEN);
+	  		console.log("the layer URL is layer/subscribe/" + layID);
 	  		//let's subscribe the user to the layer
 			session.post('layer/subscribe/' + layID, {
-			  "Authorization": "OAuth " + newUser.geoloqiTOKEN,
-			  "user_id": userID
+			  "Authorization": "OAuth " + newUser.geoloqiTOKEN
+			  // "user_id": userID
 			}, function(result, err) {
 			  if(err) {
 			    throw new Error('There has been an error! in /layer/subscribe/ '+err);
