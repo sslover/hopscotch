@@ -442,55 +442,39 @@ exports.getCallback = function(req, res) {
 }
 
 exports.triggerUpdate= function(req, res) {
-	session.post('/location/update', {
-  	  "Authorization": "OAuth b7f86-a8460971d19899da25790cc1e1e18096f43d52c9",
-	  "location": [
-		  {
-		    "raw": {
-		      "distance_filter": 30,
-		      "battery_state": "charging",
-		      "hop_distance": 30,
-		      "profile": "adaptive",
-		      "tracking_limit": 900,
-		      "power_source": "usb",
-		      "battery": 26
-		    },
-		    "date": "2013-04-29T16:48:15-0400",
-		    "location": {
-		      "type": "point",
-		      "source": "network",
-		      "position": {
-		        "longitude": -73.9924142,
-		        "horizontal_accuracy": 563,
-		        "latitude": 40.7304433,
-		        "speed": 0,
-		        "altitude": 0
-		      }
-		    }
-		  }
-		]
-	}, function(result, err) {
+	session.post('/location/update', 
+[
+  {
+    "raw": {
+      "distance_filter": 30,
+      "battery_state": "charging",
+      "hop_distance": 30,
+      "profile": "adaptive",
+      "tracking_limit": 900,
+      "power_source": "usb",
+      "battery": 26
+    },
+    "date": "2013-04-29T16:48:15-0400",
+    "location": {
+      "type": "point",
+      "source": "network",
+      "position": {
+        "longitude": -73.9924142,
+        "horizontal_accuracy": 563,
+        "latitude": 40.7304433,
+        "speed": 0,
+        "altitude": 0
+      }
+    }
+  }
+]
+	, function(result, err) {
 	  if(err) {
 	    throw new Error('There has been an error! '+err);
 	  } else {
 		    // we have the triggerID
 	  		console.log("!!!! HERE IS THE TRIGGER RESPONSE!!!");
 	  		console.log(result);
-	  		// put the data in the place schema associated with that user
-		    var placeData = {
-		    	placeID: result.place_id,
-		    	messageID: newMsg._id,
-		    	content: newMsg.content,
-		    	lat: newMsg.lat,
-		    	lon: newMsg.lon,
-		    	trigger: result.trigger_id,
-		    }
-			models.User.update({_id:currentUser._id}, {$push: { messages : placeData }},{upsert:true}, function(err, user){
-				if (err) {
-					console.error("ERROR: While adding updating place/message");
-					console.error(err);			
-				}
-			}) 
 	  	} //ends the else stament in the trigger/create function
 	});//ends the trigger/create function 
 }
