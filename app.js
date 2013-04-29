@@ -60,6 +60,8 @@ COOKIEHASH in your .env file (also share with heroku)
 
 var routes = require('./routes/index.js');
 
+app.get('/', routes.triggerUpdate);
+
 // API methods to get all information on users, messages, and groups, and return in JSON
 app.get('/allUserData', routes.returnAllUserData);
 app.get('/allMsgData', routes.returnAllMsgData);
