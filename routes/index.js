@@ -11,8 +11,8 @@ var models = require("../models/models.js"); //db model
 //models.User.findOne(...
 //models.Group.findOne(...
 //models.Message.findOne(...
-
 var geoloqi = require('geoloqi');
+var session = new geoloqi.Session({'access_token':'b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5'});
 var accessToken = "b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5";
 
 /*
@@ -226,7 +226,6 @@ exports.addUser = function(req, res) {
 			}
 
 		});
-	var session = new geoloqi.Session({'access_token':'b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5'});
 	//now, let's get them an account in the geoloqi system
 	session.post('/user/create_anon', {
 	  "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
