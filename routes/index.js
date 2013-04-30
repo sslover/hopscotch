@@ -255,7 +255,7 @@ exports.addUser = function(req, res) {
 						geoloqiUserID : userID 			
 				 });	
 			}) 
-	  	createLayer(geoloqiTOKEN);
+	  	createLayer(geoTOKEN);
 	  	}
 	});
 	function createLayer(token){
