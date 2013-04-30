@@ -261,8 +261,10 @@ exports.addUser = function(req, res) {
 	});
 	function createLayer(){
 	// now, let's give them a unique layerID that will hold all their messages
+	console.log("the user ID that we are subscribing to this layer is " + userID + " and the geoloqiTOKEN is " + geoTOKEN);
 	session.post('/layer/create', {
-	  "key": newUser._id,
+	  "Authorization": "OAuth " + geoTOKEN,
+	  "key": userID,
 	  "public": 1,
 	  "name": newUser.name
 	}, function(result, err) {
@@ -392,6 +394,7 @@ exports.addMsg = function(req, res) {
 				  } else {
 				  		console.log("!!!! HERE IS THE PLACE RESPONSE!!!");
 				  		console.log(result);
+				  		console.log("we are setting the trigger for the placeID " + result.place_id);
 				  		// now that we have the placeID, let's add the trigger.. function for getting the triggerID goes next
 						session.post('/trigger/create', {
 			  	  		  "Authorization": "OAuth " + currentUser.geoloqiTOKEN,
@@ -441,40 +444,43 @@ exports.getCallback = function(req, res) {
 	console.log(req.body);
 }
 
-exports.triggerUpdate= function(req, res) {
-	session.post('/location/update', 
-[
-  {
-    "raw": {
-      "distance_filter": 30,
-      "battery_state": "charging",
-      "hop_distance": 30,
-      "profile": "adaptive",
-      "tracking_limit": 900,
-      "power_source": "usb",
-      "battery": 26
-    },
-    "date": "2013-04-29T16:48:15-0400",
-    "location": {
-      "type": "point",
-      "source": "network",
-      "position": {
-        "longitude": -73.9924142,
-        "horizontal_accuracy": 563,
-        "latitude": 40.7304433,
-        "speed": 0,
-        "altitude": 0
-      }
-    }
-  }
-]
-	, function(result, err) {
-	  if(err) {
-	    throw new Error('There has been an error! '+err);
-	  } else {
-		    // we have the triggerID
-	  		console.log("!!!! HERE IS THE TRIGGER RESPONSE!!!");
-	  		console.log(result);
-	  	} //ends the else stament in the trigger/create function
-	});//ends the trigger/create function 
-}
+// exports.triggerUpdate= function(req, res) {
+// 	session.post('/location/update', 
+// [
+//   {
+//     "raw": {
+//       "distance_filter": 30,
+//       "battery_state": "charging",
+//       "hop_distance": 30,
+//       "profile": "adaptive",
+//       "tracking_limit": 900,
+//       "power_source": "usb",
+//       "battery": 26
+//     },
+//     "date": "2013-04-29T16:48:15-0400",
+//     "location": {
+//       "type": "point",
+//       "source": "network",
+//       "position": {
+//         "longitude": -73.9924142,
+//         "horizontal_accuracy": 563,
+//         "latitude": 40.7304433,
+//         "speed": 0,
+//         "altitude": 0
+//       }
+//     }
+//   }
+// ],
+// {
+// 		"Authorization": "OAuth b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5"
+// 	} 
+// 	, function(result, err) {
+// 	  if(err) {
+// 	    throw new Error('There has been an error! '+err);
+// 	  } else {
+// 		    // we have the triggerID
+// 	  		console.log("!!!! HERE IS THE TRIGGER RESPONSE!!!");
+// 	  		console.log(result);
+// 	  	} //ends the else stament in the trigger/create function
+// 	});//ends the trigger/create function 
+// }
