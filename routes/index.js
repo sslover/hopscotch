@@ -262,7 +262,7 @@ exports.addUser = function(req, res) {
 	var session2 = new geoloqi.Session({'access_token': token});
 	// now, let's give them a unique layerID that will hold all their messages
 	console.log("the user ID that we are subscribing to this layer is " + userID + " and the geoloqiTOKEN is " + geoTOKEN);
-	session2.post('/layer/create', {
+	session.post('/layer/create', {
 	  "Authorization": "OAuth " + geoTOKEN,
 	  "key": userID,
 	  "public": 1,
