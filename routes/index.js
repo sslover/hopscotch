@@ -13,7 +13,6 @@ var models = require("../models/models.js"); //db model
 //models.Message.findOne(...
 
 var geoloqi = require('geoloqi');
-var session = new geoloqi.Session({'access_token':'b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5'});
 var accessToken = "b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5";
 
 /*
@@ -227,6 +226,7 @@ exports.addUser = function(req, res) {
 			}
 
 		});
+	var session = new geoloqi.Session({'access_token':'b42e8-c72955a7abd906a5a3b7f90d58ebfba4998d3cf5'});
 	//now, let's get them an account in the geoloqi system
 	session.post('/user/create_anon', {
 	  "client_id": "d9c602b6c0c651ecf4bfd9db88b5acf1",
@@ -260,10 +260,10 @@ exports.addUser = function(req, res) {
 	  	}
 	});
 	function createLayer(token){
-	session = new geoloqi.Session({'access_token': token});
+	var session2 = new geoloqi.Session({'access_token': token});
 	// now, let's give them a unique layerID that will hold all their messages
 	console.log("the user ID that we are subscribing to this layer is " + userID + " and the geoloqiTOKEN is " + geoTOKEN);
-	session.post('/layer/create', {
+	session2.post('/layer/create', {
 	  "Authorization": "OAuth " + geoTOKEN,
 	  "key": userID,
 	  "public": 1,
@@ -286,7 +286,7 @@ exports.addUser = function(req, res) {
 	  		console.log("the user ID that we are subscribing to this layer is " + userID + " and the geoloqiTOKEN is " + geoTOKEN);
 	  		console.log("the layer URL is layer/subscribe/" + layID);
 	  		//let's subscribe the user to the layer
-			session.post('layer/subscribe/' + layID, {
+			session2.post('layer/subscribe/' + layID, {
 			  "Authorization": "OAuth " + geoTOKEN,
 			  "user_id": userID
 			}, function(result, err) {
@@ -382,11 +382,11 @@ exports.addMsg = function(req, res) {
 			if (currentUser) {
 				// set up their geoloqi session
 				var token = currentUser.geoloqiTOKEN;
-				session = new geoloqi.Session({'access_token': token});
+				var session2 = new geoloqi.Session({'access_token': token});
 				console.log("updating layer for user " + currentUser.name);
 				console.log("the layer that we are adding the place is " + currentUser.layerID);
 				//create the place in geoloqi; the place maps to the message
-				session.post('/place/create', {
+				session2.post('/place/create', {
 			  	  "Authorization": "OAuth " + currentUser.geoloqiTOKEN,
 				  "layer_id": currentUser.layerID,
 				  "radius": 9999,
@@ -400,7 +400,7 @@ exports.addMsg = function(req, res) {
 				  		console.log(result);
 				  		console.log("we are setting the trigger for the placeID " + result.place_id);
 				  		// now that we have the placeID, let's add the trigger.. function for getting the triggerID goes next
-						session.post('/trigger/create', {
+						session2.post('/trigger/create', {
 			  	  		  "Authorization": "OAuth " + currentUser.geoloqiTOKEN,
 						  "place_id": result.place_id,
 						  "type": "callback",
