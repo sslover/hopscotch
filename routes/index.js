@@ -399,7 +399,7 @@ exports.addMsg = function(req, res) {
 				  		console.log(result);
 				  		console.log("we are setting the trigger for the placeID " + result.place_id);
 				  		// now that we have the placeID, let's add the trigger.. function for getting the triggerID goes next
-						session2.post('/trigger/create', {
+						sessionUser.post('/trigger/create', {
 			  	  		  "Authorization": "OAuth " + currentUser.geoloqiTOKEN,
 						  "place_id": result.place_id,
 						  "type": "callback",
